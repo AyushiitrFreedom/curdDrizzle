@@ -5,8 +5,11 @@ import dotenv from "dotenv";
 import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
 import { router } from './routes/routes';
 import { migrate } from "postgres-migrations"
+import * as trpcExpress from '@trpc/server/adapters/express';
+import { appRouter } from './routes/index';
 
 import pkg from 'pg';
+import { a } from "drizzle-orm/column.d-aa4e525d";
 const { Client } = pkg;
 
 
@@ -21,7 +24,7 @@ const client = new Client({
 
 await client.connect();
 export const db = drizzle(client);
-// await migrate({ client }, './db');
+// await migrate({ client }, './db');trpc
 
 
 const app = express();
@@ -31,10 +34,11 @@ app.use(express.json());
 dotenv.config();
 
 // Available Routes
-app.use("/", router);
+app.use("/", trpcExpress.createExpressMiddleware({ router: appRouter }));
 // app.use("/api/notes", require("./routes/notes"));
 
 app.listen(process.env.EXPRESS_PORT, () => {
     console.log(`Example app listening on port ${process.env.EXPRESS_PORT}`);
 });
 
+export type AppRouter = typeof appRouter;

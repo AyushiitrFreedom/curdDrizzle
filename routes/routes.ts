@@ -3,7 +3,7 @@ import { db } from "../index";
 import { Cities, city, NewCity } from "../db/schema";
 
 export const router = express.Router();
-router.get("/", async (req, res) => {
+router.get("/show", async (req, res) => {
     const cities: Cities[] = await db.select().from(city);
     res.json(cities);
 });
