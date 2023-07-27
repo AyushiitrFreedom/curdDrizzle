@@ -16,9 +16,9 @@ const { Client } = pkg;
 const client = new Client({
     host: "127.0.0.1",
     port: 5432,
-    user: "fish_user",
-    password: "password",
-    database: "fish",
+    user: "myuser2",
+    password: "1234",
+    database: "twitterX",
 });
 
 
